@@ -2,11 +2,12 @@ import os
 import sys
 
 class CustomException(Exception):
-    def __init__(self,error_message:Exception,error_details:sys):
-        self.error_message = CustomException.function()
+    def __init__(self,error_message:Exception,error_detail:sys):
+        self.error_message = CustomException.get_detailed_error_message(error_message=error_message,
+                                                                       error_detail=error_detail)
     
     def get_detailed_error_message(error_message:Exception,error_detail:sys)->str:
-        _,_, exec_tb = error_details.exc_info()
+        _,_, exec_tb = error_detail.exc_info()
         exception_block_line_number = exec_tb.tb_frame.f_lineno
         try__block_line_number = exec_tb.tb_lineno
         file_name = exec_tb.tb_frame.f_code.co_filename

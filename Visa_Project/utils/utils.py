@@ -22,7 +22,7 @@ def write_yaml_file(file_path:str,data:dict=None):
     except Exception as e:
         raise CustomException(e,sys)
     
-def read_yaml_file(file_pat:str)->dict:
+def read_yaml_file(file_path:str)->dict:
         """
         Reads a yaml file and returns the contents as a dictionary
         file_path: str
