@@ -1,4 +1,5 @@
 import sys
+import os
 from Visa_Project.constant import *
 from Visa_Project.logger import logging
 from Visa_Project.exception import CustomException
@@ -9,13 +10,13 @@ from Visa_Project.config.configuration import Configuration
 from datetime import date
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from datetime import datetime
+#import six.moves.urllib.parse
 
 
 class DataIngestion:
     def __init__(self,data_ingestion_config:DataIngestionConfig):
         try:
-            logging.info("******* Data Ingrstion *********")
+            logging.info("******* Data Ingestion *********")
             self.data_ingestion_config = data_ingestion_config
 
         except Exception as e:
@@ -23,17 +24,27 @@ class DataIngestion:
         
     def download_data(self)->str:
         try:
+            logging.info(f"download dataset from github link")
+
             download_url = self.data_ingestion_config.dataset_download_url
             raw_data_dir = self.data_ingestion_config.raw_data_dir
             os.makedirs(raw_data_dir,exist_ok=True)
             visa_file_name = os.path.basename(download_url) #whenever we call the dl we should always use the basename
-            raw_file_path = os.path.join(raw_file_path,visa_file_name)
+            raw_file_path = os.path.join(raw_data_dir,visa_file_name)
+
+            logging.info(
+                f"Downloading file from :[{download_url}] into :[{raw_file_path}]")
+            #urllib.request.urlopen(download_url, raw_file_path)
+            logging.info(
+                f"File :[{raw_file_path}] has been downloaded successfully.")
+            return raw_file_path
 
         except Exception as e:
             raise CustomException(e,sys)
         
-    def split_data_as_train_test(self)->DataIngestionArtifact:
+    def split_data_as_train_test(self) -> DataIngestionArtifact:
         try:
+            logging.info(f"Starting Train Test Split")
             raw_data_dir = self.data_ingestion_config.raw_data_dir
             file_name = os.listdir(raw_data_dir)[0]
 

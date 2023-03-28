@@ -1,5 +1,4 @@
-import sys,os
-from Visa_Project import *
+import sys
 from Visa_Project.logger import logging
 from Visa_Project.exception import CustomException
 from Visa_Project.entity.config_entity import *
@@ -16,7 +15,7 @@ class Configuration:
             self.time_stamp = current_time_stamp
 
         except Exception as e:
-            raise CustomException(e,sys)
+            raise CustomException(e,sys) from e
         
     def get_data_ingestion_config(self) ->DataIngestionConfig:
         try:
@@ -57,7 +56,7 @@ class Configuration:
             return data_ingestion_config
         
         except Exception as e:
-            raise CustomException(e,sys)
+            raise CustomException(e,sys) from e
         
     def get_training_pipeline_config(self)->TrainingPipelineConfig:
         try:
@@ -67,7 +66,7 @@ class Configuration:
                                         training_pipeline_config[TRAINING_PIPELINE_ARTIFACT_DIR_KEY])
             
             training_pipeline_config = TrainingPipelineConfig(artifact_dir=artifact_dir)
-            logging.info(f"Training pipeline completed")
+            logging.info(f"Training pipeline completed: {training_pipeline_config}")
             return training_pipeline_config
         except Exception as e:
-            raise CustomException(e,sys)
+            raise CustomException(e,sys) from e
