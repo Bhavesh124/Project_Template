@@ -1,0 +1,35 @@
+Filename: "Visadataset.csv"
+NumberofColumns: 11
+ColumnsNames:
+  continent: category
+  education_of_employee: category
+  has_job_experince: category
+  requires_job_training: category
+  no_of_employees: int64
+  yr_of_estab: int
+  region_of_employment: category
+  prevailing_wage: float
+  unit_of_wage: category
+  full_time_position: category
+  case_status: category
+
+Numerical_columns:
+  - prevailing_wage
+
+oridianl_columns:
+  - has_job_experience
+  - requires_job_training
+  - full_time_position
+  - education_of_employee
+
+onehot_columns:
+  - continent
+  - unit_of_wage
+  - region_of_employment
+
+Transformation_columns: 
+  - yr_of_estab
+  - no_of_employees
+
+target_columns: case_status
+

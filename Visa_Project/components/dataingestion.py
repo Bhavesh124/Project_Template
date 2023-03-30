@@ -10,13 +10,15 @@ from Visa_Project.config.configuration import Configuration
 from datetime import date
 import pandas as pd
 from sklearn.model_selection import train_test_split
-#import six.moves.urllib.parse
+import urllib
+import urllib.request
+import numpy as np
 
 
 class DataIngestion:
     def __init__(self,data_ingestion_config:DataIngestionConfig):
         try:
-            logging.info("******* Data Ingestion *********")
+            logging.info("******* Data Ingestion log started *********")
             self.data_ingestion_config = data_ingestion_config
 
         except Exception as e:
@@ -34,7 +36,7 @@ class DataIngestion:
 
             logging.info(
                 f"Downloading file from :[{download_url}] into :[{raw_file_path}]")
-            #urllib.request.urlopen(download_url, raw_file_path)
+            urllib.request.urlretrieve(download_url, raw_file_path)
             logging.info(
                 f"File :[{raw_file_path}] has been downloaded successfully.")
             return raw_file_path
@@ -88,7 +90,7 @@ class DataIngestion:
     def initiate_data_ingestion(self):
         try:
             raw_file_path = self.download_data()
-            return self.split_data_as_train_test
+            return self.split_data_as_train_test()
         
         except Exception as e:
-            raise CustomException(e,sys)
+            raise CustomException(e,sys) from e
