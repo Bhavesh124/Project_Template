@@ -6,12 +6,12 @@ ColumnsNames:
   has_job_experince: category
   requires_job_training: category
   no_of_employees: int64
-  yr_of_estab: int
   region_of_employment: category
   prevailing_wage: float
   unit_of_wage: category
   full_time_position: category
   case_status: category
+  company_age: int
 
 Numerical_columns:
   - prevailing_wage
