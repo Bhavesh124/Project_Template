@@ -63,12 +63,16 @@ class DataValidation:
                 )
 
                 is_test_column_numbers_validated = self.test_Data.validate_column_length()
+                logging.info(f"code is running")
 
                 is_test_column_name_same = self.test_Data.check_columns_name()
+                logging.info(f"code is running")
 
                 is_test_missing_values_whole_column = self.test_Data.missing_values_columns()
+                logging.info(f"code is running")
 
                 self.test_Data.replace_null_values_with_null()
+                logging.info(f"code is running")
 
                 logging.info(
                     f"Train_set status|is Train filename validated?: {is_train_filename_validated}|is train columns nummber validated?: {is_train_column_numbers_validated}|is train column name validated?: {is_train_column_name_same}|whole missing columns?{is_train_missing_values_whole_column}")

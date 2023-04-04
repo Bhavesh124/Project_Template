@@ -75,6 +75,11 @@ class Configuration:
             data_validation_info[DATA_VALIDATION_SCHEMA_FILE_NAME_KEY]
             )
 
+            validated_data_dir = os.path.join(
+                data_validation_artifact_dir,
+                data_validation_info[DATA_VALIDATION_VALIDATED_DIR_KEY]
+            )
+
             data_validation_info = DataValidationConfig(
                 schema_file_path=schema_file_path
             )

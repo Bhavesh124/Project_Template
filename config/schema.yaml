@@ -3,7 +3,7 @@ NumberofColumns: 11
 ColumnsNames:
   continent: category
   education_of_employee: category
-  has_job_experince: category
+  has_job_experience: category
   requires_job_training: category
   no_of_employees: int64
   region_of_employment: category
@@ -28,7 +28,7 @@ onehot_columns:
   - region_of_employment
 
 Transformation_columns: 
-  - yr_of_estab
+  - company_age
   - no_of_employees
 
 target_columns: case_status

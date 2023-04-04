@@ -56,7 +56,12 @@ class DataIngestion:
 
             visa_DataFrame = pd.read_csv(visa_file_name)
             visa_DataFrame[COLUMN_COMPANY_AGE] = current_year - visa_DataFrame[COLUMN_YEAR_ESTB]
+            logging.info(f"the code is running")
             visa_DataFrame.drop([COLUMN_ID,COLUMN_YEAR_ESTB], axis=1, inplace=True)
+
+            visa_DataFrame[COLUMN_CASE_STATUS] = np.where(visa_DataFrame[COLUMN_CASE_STATUS] == 'Denied', 1,0)
+                        
+            logging.info(f"Splitting data into train and test")
 
             train_set = None
             test_set = None
@@ -73,7 +78,7 @@ class DataIngestion:
 
             if test_set is not None:
                 os.makedirs(self.data_ingestion_config.ingested_test_dir, exist_ok=True)
-                test_set.to_csv(test_file_path, index=True)
+                test_set.to_csv(test_file_path, index=False)
 
             data_ingestion_artifact = DataIngestionArtifact(train_file_path=train_file_path,
                                                             test_file_path=test_file_path,
