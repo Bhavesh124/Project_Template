@@ -72,18 +72,58 @@ class Configuration:
 
             schema_file_path = os.path.join(ROOT_DIR,
             data_validation_info[DATA_VALIDATION_SCHEMA_DIR_KEY],
-            data_validation_info[DATA_VALIDATION_SCHEMA_FILE_NAME_KEY]
+            data_validation_info[DATA_VALIDATION_SCHEMA_FILE_NAME_KEY],
+            #data_validation_info[DATA_VALIDATION_VALIDATED_DIR_KEY]
             )
 
             validated_data_dir = os.path.join(
                 data_validation_artifact_dir,
-                data_validation_info[DATA_VALIDATION_VALIDATED_DIR_KEY]
+                #data_validation_info[DATA_VALIDATION_VALIDATED_DIR_KEY]
             )
 
             data_validation_info = DataValidationConfig(
-                schema_file_path=schema_file_path
+                schema_file_path=schema_file_path,
+                #validated_data_dir=validated_data_dir
             )
             return data_validation_info
+        except Exception as e:
+            raise CustomException(e,sys) from e
+        
+    def get_data_transformation_config(self)-> DataTransformationConfig:
+        try:
+            artifact_dir = self.training_pipeline_config.artifact_dir
+            data_transformation_artifact_dir = os.path.join(
+                artifact_dir,
+                DATA_TRANSFORMATION_ARTIFACT_DIR,
+                self.time_stamp
+            )
+            data_transformation_config_info = self.config_info[DATA_TRANSFORMATION_CONFIG_KEY]
+            preprocessed_object_file_path = os.path.join(
+                data_transformation_artifact_dir,
+                data_transformation_config_info[DATA_TRANSFORMATION_PREPROCESSING_DIR_KEY],
+                data_transformation_config_info[DATA_TRANSFORMATION_PREPROCESSING_FILE_NAME_KEY]
+            )
+
+            transformed_train_dir = os.path.join(
+                data_transformation_artifact_dir,
+                data_transformation_config_info[DATA_TRANSFORMATION_DIR_NAME_KEY],
+                data_transformation_config_info[DATA_TRANSFORMATION_TRAIN_DIR_NAME]
+            )
+
+            transformed_test_dir = os.path.join(
+                data_transformation_artifact_dir,
+                data_transformation_config_info[DATA_TRANSFORMATION_DIR_NAME_KEY],
+                data_transformation_config_info[DATA_TRANSFORMATION_TEST_DIR_NAME]
+            )
+
+            data_transformation_config = DataTransformationConfig(
+                preprocessed_object_file_path = preprocessed_object_file_path,
+                transformed_train_dir=transformed_train_dir,
+                transformed_test_dir=transformed_test_dir
+            )
+            logging.info(f"Data Transformation config:{data_transformation_config}")
+            return data_transformation_config
+
         except Exception as e:
             raise CustomException(e,sys) from e
         

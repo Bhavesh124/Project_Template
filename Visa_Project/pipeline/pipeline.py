@@ -7,9 +7,10 @@ from Visa_Project.utils.utils import read_yaml_file
 from Visa_Project.constant import *
 from Visa_Project.components.dataingestion import DataIngestion 
 from Visa_Project.components.datavalidation import DataValidation
+from Visa_Project.components.datatransformation import DataTransformation
 from Visa_Project.entity.artifact_entity import DataIngestionArtifact
 from Visa_Project.config.configuration import Configuration
-from Visa_Project.entity.artifact_entity import DataValidationArtifact
+from Visa_Project.entity.artifact_entity import DataValidationArtifact,DataTransformationArtifact
 
 
 class Pipeline():
@@ -35,9 +36,24 @@ class Pipeline():
         except Exception as e:
             raise CustomException(e,sys)
         
+    def start_data_transformation(self,data_ingestion_artifact:DataIngestionArtifact,
+                                       data_validation_artifact:DataTransformationArtifact)->DataTransformationArtifact:
+        try:
+            data_transfromation = DataTransformation(
+                data_transformation_config=self.config.get_data_transformation_config(),
+                data_ingestion_artifact=data_ingestion_artifact,
+                data_validation_artifact=data_validation_artifact
+            )
+
+            return data_transfromation.initiate_data_transformation()
+        except Exception as e:
+            raise CustomException(e,sys) from e
+        
     def run_pipeline(self):
         try:
             data_ingestion_artifact = self.start_data_ingestion()
             data_validation_artifact = self.start_data_validation(data_ingestion_artifact=data_ingestion_artifact)
+            data_transformation_artifact = self.start_data_transformation(data_ingestion_artifact=data_ingestion_artifact,
+                                                                          data_validation_artifact=data_validation_artifact)
         except Exception as e:
             raise CustomException(e,sys)

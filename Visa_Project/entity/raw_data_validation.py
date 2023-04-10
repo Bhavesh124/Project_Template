@@ -5,10 +5,11 @@ from Visa_Project.utils.utils import read_yaml_file
 import pandas as pd
 import collections
 import sys
+from Visa_Project.entity.config_entity import DataValidationConfig
 
 class IngestedDataValidation:
 
-    def __init__(self,validate_path,schema_path):
+    def __init__(self,validate_path,schema_path:DataValidationConfig):
         try:
             self.validate_path = validate_path
             self.schema_path = schema_path

@@ -16,13 +16,13 @@ ColumnsNames:
 Numerical_columns:
   - prevailing_wage
 
-oridianl_columns:
+Ordinal_columns:
   - has_job_experience
   - requires_job_training
   - full_time_position
   - education_of_employee
 
-onehot_columns:
+Onehot_columns:
   - continent
   - unit_of_wage
   - region_of_employment
@@ -31,5 +31,5 @@ Transformation_columns:
   - company_age
   - no_of_employees
 
-target_columns: case_status
+target_column: case_status
 
