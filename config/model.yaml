@@ -31,17 +31,17 @@ model_selection:
       - 8
       - 10
   module_1:
-  class: KNeighborsClassifier
-  module: sklearn.neighbors
-  params:
-    n_neighbors: 2
-    weights: uniform
-  search_param_grid:
-    n_neighbors:
-    - 3
-    - 5
-    - 9
-    - 11
-    weights:
-    - uniform
-    - distance
+    class: KNeighborsClassifier
+    module: sklearn.neighbors
+    params:
+      n_neighbors: 2
+      weights: uniform
+    search_param_grid:
+      n_neighbors:
+      - 3
+      - 5
+      - 9
+      - 11
+      weights:
+      - uniform
+      - distance

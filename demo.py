@@ -1,5 +1,3 @@
-from Visa_Project.entity.config_entity import DataIngestionConfig,DataValidationConfig,DataTransformationConfig
-from Visa_Project.entity.artifact_entity import DataIngestionArtifact,DataValidationArtifact,DataTransformationArtifact
 from Visa_Project.config.configuration import Configuration
 import os,sys
 from Visa_Project.logger import logging
