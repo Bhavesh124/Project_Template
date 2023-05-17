@@ -9,9 +9,11 @@ from Visa_Project.components.dataingestion import DataIngestion
 from Visa_Project.components.datavalidation import DataValidation
 from Visa_Project.components.datatransformation import DataTransformation
 from Visa_Project.components.modeltrainer import ModelTrainer
+from Visa_Project.components.modelevaluation import ModelEvaluation
+from Visa_Project.components.modelpusher import ModelPusher
 from Visa_Project.entity.artifact_entity import DataIngestionArtifact
 from Visa_Project.config.configuration import Configuration
-from Visa_Project.entity.artifact_entity import DataValidationArtifact,DataTransformationArtifact,ModelTrainerArtifact
+from Visa_Project.entity.artifact_entity import DataValidationArtifact,DataTransformationArtifact,ModelTrainerArtifact,ModelEvaluationArtifact,ModelPusherArtifact
 
 
 class Pipeline():
@@ -59,6 +61,30 @@ class Pipeline():
         except Exception as e:
             raise CustomException(e, sys) from e
         
+    def start_model_evaluation(self,data_ingestion_artifact: DataIngestionArtifact,
+                                    data_validation_artifact: DataValidationArtifact,
+                                    model_trainer_artifact: ModelTrainerArtifact)-> ModelEvaluationArtifact:
+        try:
+            model_eval = ModelEvaluation(
+                model_evaluation_config=self.config.get_model_evaluation_config(),
+                data_ingestion_artifact=data_ingestion_artifact,
+                data_validation_artifact=data_validation_artifact,
+                model_trainer_artifact=model_trainer_artifact
+            )
+            return model_eval.initiate_model_evaluation()
+        except Exception as e:
+            raise CustomException(e,sys) from e
+        
+    def start_model_pusher(self, model_eval_artifact: ModelEvaluationArtifact) -> ModelPusherArtifact:
+        try:
+            model_pusher = ModelPusher(
+                model_pusher_config=self.config.get_model_pusher_config(),
+                model_evaluation_artifact=model_eval_artifact
+            )
+            return model_pusher.initiate_model_pusher()
+        except Exception as e:
+            raise CustomException(e, sys) from e
+        
     def run_pipeline(self):
         try:
             data_ingestion_artifact = self.start_data_ingestion()
@@ -66,5 +92,10 @@ class Pipeline():
             data_transformation_artifact = self.start_data_transformation(data_ingestion_artifact=data_ingestion_artifact,
                                                                           data_validation_artifact=data_validation_artifact)
             model_trainer_artifact = self.start_model_trainer(data_transformation_artifact=data_transformation_artifact)
+            model_evaluation_artifact = self.start_model_evaluation(data_ingestion_artifact=data_ingestion_artifact,
+                                                                    data_validation_artifact=data_validation_artifact,
+                                                                    model_trainer_artifact=model_trainer_artifact)
+            
+            model_pusher_artifact = self.start_model_pusher(model_eval_artifact=model_evaluation_artifact)
         except Exception as e:
             raise CustomException(e,sys)
